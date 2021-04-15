@@ -6,6 +6,24 @@ const {
     JSDOM
 } = jsdom;
 
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('db_scrapping.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected');
+  });
+
+  db.run('INSERT INTO house(title, size, location, price, energy, foundation, textBody, textFooter, id_Ville) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', ['baba','200','vannes', '200 00', 'A', '2020', 'baba', 'baba', 3], (err) => {
+	if(err) {
+		return console.log(err.message); 
+	}
+	console.log('baba');
+})
+
+
+
+
 let title = [];
 let size = [];
 let location = [];
@@ -39,7 +57,7 @@ function fetchData() {
         let sizeSanitized = size.map(x => x.replace('m²', '').replace('m', ''));
         let locationSanitized = location.map(x => x.replace(/[0-9]/g, ''));
         let priceSanitized = price.map(x => x.slice(0, -1));
-        let foundationSanitized = foundation.filter(x =>!isNaN(x));
+        let foundationSanitized = foundation.filter(x => !isNaN(x));
     })();
 };
 fetchData();
