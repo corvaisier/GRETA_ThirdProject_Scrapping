@@ -5,8 +5,8 @@ let db = new sqlite3.Database('db_scrapping.db', (err) => {
     }
     console.log('Connected');
 });
-function insert(a, z, e, r, t, y, u, i){ 
-db.run('INSERT INTO house(title, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ? )', [a, z, e, r, t, y, u, i], (err) => {
+function insert(x, a, z, e, r, t, y, u, i){ 
+db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )', [x, a, z, e, r, t, y, u, i], (err) => {
     if (err) {
         return console.log(err.message);
     }
@@ -23,5 +23,5 @@ function selectAll(){
         });
       });
     }
-    
+
 module.exports = {insert, selectAll};

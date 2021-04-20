@@ -12,6 +12,7 @@ app.use(cors())
 
 const dbInsert = require("./db");
 
+let link = []
 let title = [];
 let size = [];
 let location = [];
@@ -30,6 +31,7 @@ async function fetchData() {
         const text = await response.text();
         const dom = await new JSDOM(text);
 
+        link.push('https://simply-home.herokuapp.com/house' + count + '.php');
         title.push(dom.window.document.getElementById("titleSingleArticle").textContent);
         size.push(dom.window.document.querySelector("p.size").textContent);
         location.push(dom.window.document.querySelector("p.location").textContent);
@@ -40,7 +42,7 @@ async function fetchData() {
         textFooter.push(dom.window.document.getElementById("articleSubContent").textContent);
         count++;
     };
-    return ([title, size, location, price, energy, foundation, textBody, textFooter])
+    return ([link, title, size, location, price, energy, foundation, textBody, textFooter])
 
 };
 
@@ -54,6 +56,7 @@ fetchData()
         .map(x => x.replace(/[0-9]/g, "")))
     .then(data => priceSanitized = price
         .map(x => x.slice(0, -1)
+            .replace(" ", "")
             .replace(/([^0-9])+/i, "")))
     .then(data => priceSanitized = priceSanitized.map(x => parseInt(x)))
     .then(data => energySanitized = energy
@@ -65,13 +68,14 @@ fetchData()
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
     .then(data => textFooterSanitized = textFooter
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
-//.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
-// .then(data => {
-//     for (let i = 0; i < 17; i++) {
-//         dbInsert.insert(titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
-//     }
-// })
-app.get('/cors-test', function (req, res, next) {
+    .then(data => console.log(link))
+    //.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
+    .then(data => {
+        for (let i = 0; i < 17; i++) {
+            dbInsert.insert(link[i], titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
+        }
+    })
+app.get('/cors-test', function (req, res) {
     res.send('This is CORS-enabled for all origins!')
 })
 app.get('/data', function (req, res) {
