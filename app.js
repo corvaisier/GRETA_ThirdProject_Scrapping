@@ -1,10 +1,15 @@
 let express = require('express')
-let app = express()
+let cors = require('cors')
+const bodyParser = require('body-parser')
 const fetch = require('isomorphic-fetch')
 const jsdom = require("jsdom");
 const {
     JSDOM
 } = jsdom;
+let app = express()
+app.use(bodyParser.json())
+app.use(cors())
+
 const dbInsert = require("./db");
 
 let title = [];
@@ -44,25 +49,36 @@ fetchData()
         .map(x => x.length < 3 || x.length > 100 ? x = "Maison" : x))
     .then(data => sizeSanitized = size
         .map(x => x.replace(/([^0-9])+/i, "")))
-        .then(data => sizeSanitized = sizeSanitized.map(x => parseInt(x)))
+    .then(data => sizeSanitized = sizeSanitized.map(x => parseInt(x)))
     .then(data => locationSanitized = location
         .map(x => x.replace(/[0-9]/g, "")))
     .then(data => priceSanitized = price
         .map(x => x.slice(0, -1)
-        .replace(/([^0-9])+/i, "")))
-        .then(data => priceSanitized = priceSanitized.map(x => parseInt(x)))
+            .replace(/([^0-9])+/i, "")))
+    .then(data => priceSanitized = priceSanitized.map(x => parseInt(x)))
     .then(data => energySanitized = energy
         .map(x => x.length != 1 ? x = "X" : x))
     .then(data => foundationSanitized = foundation
         .map(x => x.replace(/([^0-9])+/i, "0")))
-        .then(data => foundationSanitized = foundationSanitized.map(x => parseInt(x)))
+    .then(data => foundationSanitized = foundationSanitized.map(x => parseInt(x)))
     .then(data => textBodySanitized = textBody
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
     .then(data => textFooterSanitized = textFooter
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
-    .then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
-    // .then(data => {
-    //     for (let i = 0; i < 17; i++) {
-    //         dbInsert.insert(titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
-    //     }
-    // })
+//.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
+// .then(data => {
+//     for (let i = 0; i < 17; i++) {
+//         dbInsert.insert(titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
+//     }
+// })
+app.get('/cors-test', function (req, res, next) {
+    res.send('This is CORS-enabled for all origins!')
+})
+app.get('/data', function (req, res) {
+    let data = dbInsert.selectAll()
+    res.send(data);
+});
+app.post('/insert', function (req, res) {
+    console.log(req.body.name);
+})
+app.listen(8081)
