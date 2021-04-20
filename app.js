@@ -10,7 +10,9 @@ let app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-const dbInsert = require("./db");
+const dbFile = require("./db");
+const calculFile = require("./calcul");
+
 
 let link = []
 let title = [];
@@ -73,19 +75,21 @@ fetchData()
     //.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
     // .then(data => {
     //     for (let i = 0; i < 17; i++) {
-    //         dbInsert.insert(link[i], titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
+    //         dbFile.insert(link[i], titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
     //     }
     // })
 app.get('/cors-test', function (req, res) {
     res.send('This is CORS-enabled for all origins!')
-})
+});
 app.get('/data',  (req, res) => {
-    let data = dbInsert.selectAll()
+    let data = dbFile.selectAll()
     res.send(data);
 });
 app.post('/insert', (req, res) => {
-    //console.log(req.body.link);
-    result = dbInsert.selectOne(req.body.link);
-    console.log(result);
+
+    result = dbFile.selectOne(req.body.link);
+    // calculFile.housePrice(result)
+    res.send(result);
 })
+
 app.listen(8081)
