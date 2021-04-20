@@ -24,4 +24,18 @@ function selectAll(){
       });
     }
 
-module.exports = {insert, selectAll};
+
+    var data;
+    function selectOne(link){    
+        
+        db.all('SELECT * FROM house WHERE link_uniq = ?', [link], (err, rows) => {
+            if (err) {
+              throw err;
+            }
+        
+            data = rows;
+          });
+          
+          return data;
+        }
+module.exports = {insert, selectAll, selectOne};
