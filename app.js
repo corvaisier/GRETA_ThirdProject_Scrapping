@@ -88,7 +88,9 @@ app.get('/data',  (req, res) => {
 app.post('/insert', (req, res) => {
 
     result = dbFile.selectOne(req.body.link);
-    // calculFile.housePrice(result)
+    //console.log(result[0].location);
+    calculFile.housePrice(result[0].location);
+    
     res.send(result);
 })
 

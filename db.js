@@ -7,7 +7,8 @@ let db = new sqlite3.Database('db_scrapping.db', (err) => {
 });
 
 let data;
-let average = [];
+let totalPrice = [];
+let totalSize = [];
 
 function insert(x, a, z, e, r, t, y, u, i) {
     db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )', [x, a, z, e, r, t, y, u, i], (err) => {
@@ -39,22 +40,31 @@ function selectOne(link) {
     return data;
 }
 function searchPrice(city) {
-    db.all('SELECT price FROM house WHERE ?', [city], (err, rows) => {
+   db.all('SELECT price FROM house WHERE location = ?', [city], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        for (let i = 0; i < rows.length; i++) {
+            totalPrice.push(rows[i].price);
+        }
+    })
+     return totalPrice; 
+}
+function searchSize(city) {
+    db.all('SELECT size FROM house WHERE location = ?', [city], (err, rows) => {
         if(err) {
             throw err;
         }
-        console.log(rows)
-        // let averagePrice = [];
-        // for (let i = 0; i < rows.length; i++){
-        //     averagePrice.push(rows[i].price)
-        // }
-        // average = averagePrice.reduce((acc,v) => acc + v) / averagePrice.length;
-        // return average;
-     })
+        for (let i = 0; i < rows.length; i++){
+            totalSize.push(rows[i].size);
+        } 
+     });             
+     return totalSize; 
 }
 
 module.exports = {
     insert,
     selectOne,
-    searchPrice
+    searchPrice,
+    searchSize
 };
