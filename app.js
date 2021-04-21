@@ -89,8 +89,7 @@ app.post('/insert', (req, res) => {
 
     result = dbFile.selectOne(req.body.link);
     //console.log(result[0].location);
-    calculFile.housePrice(result[0].location);
-    
+    let priceSizeAverage = calculFile.priceSize(result[0].location);
     res.send(result);
 })
 

@@ -1,12 +1,16 @@
 const dbFile = require("./db");
 
-
+function priceSize(city) {
+    return (housePrice(city) / houseSize(city));
+}
 
 function housePrice(city){
    let averagePrice = average(dbFile.searchPrice(city));
-   console.log(averagePrice);
-   let size = dbFile.searchSize(city);
-   //console.log(size);
+   return averagePrice;
+}
+function houseSize(city){
+    let averageSize = average(dbFile.searchSize(city));
+    return averageSize;
 }
 
 function average(x) {
@@ -16,5 +20,5 @@ function average(x) {
 }
 
 module.exports = {
- housePrice
+ priceSize
 };

@@ -1,14 +1,15 @@
 let sqlite3 = require('sqlite3').verbose();
+
+let data;
+let totalPrice = [];
+let totalSize = [];
+
 let db = new sqlite3.Database('db_scrapping.db', (err) => {
     if (err) {
         console.error(err.message);
     }
     console.log('Connected');
 });
-
-let data;
-let totalPrice = [];
-let totalSize = [];
 
 function insert(x, a, z, e, r, t, y, u, i) {
     db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )', [x, a, z, e, r, t, y, u, i], (err) => {
