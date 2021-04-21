@@ -1,20 +1,20 @@
-let express = require('express')
-let cors = require('cors')
-const bodyParser = require('body-parser')
-const fetch = require('isomorphic-fetch')
+let express = require('express');
+let cors = require('cors');
+const bodyParser = require('body-parser');
+const fetch = require('isomorphic-fetch');
 const jsdom = require("jsdom");
 const {
     JSDOM
 } = jsdom;
-let app = express()
-app.use(bodyParser.json())
-app.use(cors())
+let app = express();
+app.use(bodyParser.json());
+app.use(cors());
 
 const dbFile = require("./db");
 const calculFile = require("./calcul");
 
 
-let link = []
+let link = [];
 let title = [];
 let size = [];
 let location = [];
@@ -46,8 +46,7 @@ async function fetchData() {
         textFooter.push(dom.window.document.getElementById("articleSubContent").textContent);
         count++;
     };
-    return ([link, title, size, location, price, energy, foundation, textBody, textFooter])
-
+    return ([link, title, size, location, price, energy, foundation, textBody, textFooter]);
 };
 
 fetchData()
@@ -79,10 +78,10 @@ fetchData()
 //     }
 // })
 app.get('/cors-test', function (req, res) {
-    res.send('This is CORS-enabled for all origins!')
+    res.send('This is CORS-enabled for all origins!');
 });
 app.get('/data', (req, res) => {
-    let data = dbFile.selectAll()
+    let data = dbFile.selectAll();
     res.send(data);
 });
 app.post('/insert', (req, res) => {
@@ -93,4 +92,4 @@ app.post('/insert', (req, res) => {
     res.send(result);
 })
 
-app.listen(8081)
+app.listen(8081);
