@@ -72,23 +72,23 @@ fetchData()
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
     .then(data => textFooterSanitized = textFooter
         .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
-    //.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
-    // .then(data => {
-    //     for (let i = 0; i < 17; i++) {
-    //         dbFile.insert(link[i], titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
-    //     }
-    // })
+//.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
+// .then(data => {
+//     for (let i = 0; i < 17; i++) {
+//         dbFile.insert(link[i], titleSanitized[i], sizeSanitized[i], locationSanitized[i], priceSanitized[i], energySanitized[i], foundationSanitized[i], textBodySanitized[i], textFooterSanitized[i], 3)
+//     }
+// })
 app.get('/cors-test', function (req, res) {
     res.send('This is CORS-enabled for all origins!')
 });
-app.get('/data',  (req, res) => {
+app.get('/data', (req, res) => {
     let data = dbFile.selectAll()
     res.send(data);
 });
 app.post('/insert', (req, res) => {
 
     result = dbFile.selectOne(req.body.link);
-    //console.log(result[0].location);
+    console.log(result);
     let priceSizeAverage = calculFile.priceSize(result[0].location);
     res.send(result);
 })

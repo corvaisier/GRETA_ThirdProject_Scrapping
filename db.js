@@ -40,8 +40,9 @@ function selectOne(link) {
     });
     return data;
 }
+
 function searchPrice(city) {
-   db.all('SELECT price FROM house WHERE location = ?', [city], (err, rows) => {
+    db.all('SELECT price FROM house WHERE location = ?', [city], (err, rows) => {
         if (err) {
             throw err;
         }
@@ -49,18 +50,19 @@ function searchPrice(city) {
             totalPrice.push(rows[i].price);
         }
     })
-     return totalPrice; 
+    return totalPrice;
 }
+
 function searchSize(city) {
     db.all('SELECT size FROM house WHERE location = ?', [city], (err, rows) => {
-        if(err) {
+        if (err) {
             throw err;
         }
-        for (let i = 0; i < rows.length; i++){
+        for (let i = 0; i < rows.length; i++) {
             totalSize.push(rows[i].size);
-        } 
-     });             
-     return totalSize; 
+        }
+    });
+    return totalSize;
 }
 
 module.exports = {
