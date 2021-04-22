@@ -5,21 +5,28 @@ function priceSize(city) {
 };
 
 function housePrice(city) {
-    let averagePrice = average(dbFile.searchPrice(city));
-    return averagePrice;
+    return average(dbFile.searchPrice(city));   
 };
 
 function houseSize(city) {
-    let averageSize = average(dbFile.searchSize(city));
-    return averageSize;
+    return average(dbFile.searchSize(city));
 };
+
+function houseFoundation(city) {
+    return average(dbFile.searchFoundation(city));
+};
+
+function percent(x, y) {
+    return (((x -  y) / y) * 100).toFixed(2);
+}
 
 function average(x) {
     let withoutDuplication = [...new Set(x)];
-    let averageA = withoutDuplication.reduce((acc, v) => acc + v) / withoutDuplication.length;
-    return averageA;
+    return withoutDuplication.reduce((acc, v) => acc + v) / withoutDuplication.length;
 };
 
 module.exports = {
-    priceSize
+    priceSize,
+    percent,
+    houseFoundation
 };

@@ -85,10 +85,14 @@ app.get('/data', (req, res) => {
     res.send(data);
 });
 app.post('/insert', (req, res) => {
-
     result = dbFile.selectOne(req.body.link);
+    let priceSize = calculFile.priceSize(result[0].location);
+    result.push(
+        priceSize,
+        calculFile.percent(priceSize, (result[0].price / result[0].size)),
+        calculFile.houseFoundation(result[0].location),
+    );
     console.log(result);
-    let priceSizeAverage = calculFile.priceSize(result[0].location);
     res.send(result);
 })
 

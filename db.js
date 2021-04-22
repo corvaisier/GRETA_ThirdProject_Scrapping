@@ -3,6 +3,7 @@ let sqlite3 = require('sqlite3').verbose();
 let data;
 let totalPrice = [];
 let totalSize = [];
+let totalFoundation = [];
 
 let db = new sqlite3.Database('db_scrapping.db', (err) => {
     if (err) {
@@ -64,10 +65,22 @@ function searchSize(city) {
     });
     return totalSize;
 };
+function searchFoundation(city) {
+    db.all('SELECT foundation FROM house WHERE location = ?', [city], (err, rows) => {
+        if (err) {
+            throw err;
+        };
+        for (let i = 0; i < rows.length; i++) {
+            totalFoundation.push(rows[i].foundation);
+        };
+    });
+    return totalFoundation;
+};
 
 module.exports = {
     insert,
     selectOne,
     searchPrice,
-    searchSize
+    searchSize,
+    searchFoundation
 };
