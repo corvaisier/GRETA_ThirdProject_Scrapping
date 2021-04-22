@@ -12,8 +12,8 @@ let db = new sqlite3.Database('db_scrapping.db', (err) => {
     console.log('Connected');
 });
 
-function insert(x, a, z, e, r, t, y, u, i) {
-    db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )', [x, a, z, e, r, t, y, u, i], (err) => {
+function insert(x, a, z, e, r, t, y, u, i, o) {
+    db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter, img) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [x, a, z, e, r, t, y, u, i, o], (err) => {
         if (err) {
             return console.log(err.message);
         };
