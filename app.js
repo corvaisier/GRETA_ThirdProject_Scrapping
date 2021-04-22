@@ -50,27 +50,30 @@ async function fetchData() {
 };
 
 fetchData()
-    .then(data => titleSanitized = title
-        .map(x => x.length < 3 || x.length > 100 ? x = "Maison" : x))
-    .then(data => sizeSanitized = size
-        .map(x => x.replace(/([^0-9])+/i, "")))
-    .then(data => sizeSanitized = sizeSanitized.map(x => parseInt(x)))
-    .then(data => locationSanitized = location
-        .map(x => x.replace(/[0-9]/g, "")))
-    .then(data => priceSanitized = price
+    .then(
+        data => titleSanitized = title
+        .map(x => x.length < 3 || x.length > 100 ? x = "Maison" : x),
+        sizeSanitized = size
+        .map(x => x.replace(/([^0-9])+/i, "")),
+        sizeSanitized = sizeSanitized.map(x => parseInt(x)),
+        locationSanitized = location
+        .map(x => x.replace(/[0-9]/g, "")),
+        priceSanitized = price
         .map(x => x.slice(0, -1)
             .replace(" ", "")
-            .replace(/([^0-9])+/i, "")))
-    .then(data => priceSanitized = priceSanitized.map(x => parseInt(x)))
-    .then(data => energySanitized = energy
-        .map(x => x.length != 1 ? x = "X" : x))
-    .then(data => foundationSanitized = foundation
-        .map(x => x.replace(/([^0-9])+/i, "0")))
-    .then(data => foundationSanitized = foundationSanitized.map(x => parseInt(x)))
-    .then(data => textBodySanitized = textBody
-        .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
-    .then(data => textFooterSanitized = textFooter
-        .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x))
+            .replace(/([^0-9])+/i, "")),
+        priceSanitized = priceSanitized.map(x => parseInt(x)),
+        energySanitized = energy
+        .map(x => x.length != 1 ? x = "X" : x),
+        foundationSanitized = foundation
+        .map(x => x.replace(/([^0-9])+/i, "0")),
+        foundationSanitized = foundationSanitized.map(x => parseInt(x)),
+        textBodySanitized = textBody
+        .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x),
+        textFooterSanitized = textFooter
+        .map(x => x.length < 3 || x.length > 5000 ? x = "bodyText indisponible" : x)
+    );
+
 //.then(data => console.log(title, sizeSanitized, locationSanitized, priceSanitized, energy, foundationSanitized, textBody, textFooter))
 // .then(data => {
 //     for (let i = 0; i < 17; i++) {
