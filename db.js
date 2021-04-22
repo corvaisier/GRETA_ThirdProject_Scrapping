@@ -12,8 +12,16 @@ let db = new sqlite3.Database('db_scrapping.db', (err) => {
     console.log('Connected');
 });
 
+// function insert(x, a, z, e, r, t, y, u, i, o) {
+//     db.run('INSERT OR IGNORE INTO house(link_unik, title, img, size, location, price, energy, foundation, textBody, textFooter) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [x, a, z, e, r, t, y, u, i, o], (err) => {
+//         if (err) {
+//             return console.log(err.message);
+//         };
+//         console.log('success');
+//     });
+// };
 function insert(x, a, z, e, r, t, y, u, i, o) {
-    db.run('INSERT OR IGNORE INTO house(link_uniq, title, size, location, price, energy, foundation, textBody, textFooter, img) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [x, a, z, e, r, t, y, u, i, o], (err) => {
+    db.run('INSERT OR IGNORE INTO house(link_unik, title, img, size, location, price, energy, foundation, textBody, textFooter) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [x, a, z, e, r, t, y, u, i, o], (err) => {
         if (err) {
             return console.log(err.message);
         };
@@ -27,13 +35,13 @@ function selectAll() {
             throw err;
         };
         rows.forEach((row) => {
-            console.log(row.size);
+            console.log(row);
         });
     });
 };
 
 function selectOne(link) {
-    db.all('SELECT * FROM house WHERE link_uniq = ?', [link], (err, rows) => {
+    db.all('SELECT * FROM house WHERE link_unik = ?', [link], (err, rows) => {
         if (err) {
             throw err;
         };
@@ -82,5 +90,6 @@ module.exports = {
     selectOne,
     searchPrice,
     searchSize,
-    searchFoundation
+    searchFoundation,
+    selectAll
 };
